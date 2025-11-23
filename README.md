@@ -172,6 +172,24 @@ GET http://localhost:8000/api/products?page=1&limit=15&sort_by=price&sort_order=
 - `category` - Category ID filter
 - `availability` - Filter by stock (in_stock, out_of_stock)
 
+**How Dynamic Filtering Works:**
+
+The filtering system is designed to be completely flexible and dynamic. This means you can use any combination of filters, or no filters at all. The API intelligently applies only the filters you provide in the request.
+
+For example, if you only want to filter by price range, you can send just `min_price` and `max_price` parameters. If you want to filter by category and availability, you can send just those two. You can also combine all filters together, or use none at all to get all products.
+
+The logic works by checking if each filter parameter exists in the request. If it exists, that filter is added to the database query. If it doesn't exist, that filter is simply skipped. This allows for maximum flexibility - users can search for products using any combination of price range, category, and stock availability that suits their needs.
+
+**Filter Examples:**
+
+- Get all products: `GET /api/products`
+- Filter by price only: `GET /api/products?min_price=100&max_price=500`
+- Filter by category only: `GET /api/products?category=1`
+- Filter by availability only: `GET /api/products?availability=in_stock`
+- Combine all filters: `GET /api/products?min_price=50&max_price=200&category=1&availability=in_stock`
+
+All filters work together seamlessly, and you can use any combination you need.
+
 ### 5. Get Single Product
 
 ```bash
